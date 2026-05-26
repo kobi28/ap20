@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <title>Program Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       CSS CUSTOM PROPERTIES (Design Tokens)
+       ======================================== */
+    :root {
+      /* Primary */
+      --color-primary-90: #000A14;
+      --color-primary-80: #001730;
+      --color-primary-70: #0059B8;
+      --color-primary-60: #5CABFF;
+      --color-primary-30: #C2DFFF;
+      --color-primary-20: #F0F1FA;
+      --color-primary-10: #F6F7FC;
+
+      /* Secondary */
+      --color-secondary-dark: #25A7A1;
+      --color-secondary-medium: #4AD7D1;
+      --color-secondary-light: #8AE5E1;
+      --color-secondary-translucent: rgba(74, 215, 209, 0.3);
+
+      /* Tertiary */
+      --color-tertiary-dark: #F53900;
+      --color-tertiary-medium: #FF6A3D;
+      --color-tertiary-light: #FFB199;
+      --color-tertiary-translucent: rgba(255, 106, 61, 0.3);
+
+      /* Grey */
+      --color-grey-90: #001730;
+      --color-grey-80: #575C64;
+      --color-grey-70: #8D939D;
+      --color-grey-60: #BDC4D0;
+      --color-grey-50: #D7DEE9;
+      --color-grey-40: #F0F2F5;
+      --color-grey-0: #FFFFFF;
+
+      /* Status — Info */
+      --info-dark: #0059B8;
+      --info-muted-dark: #ADD5FF;
+      --info-muted-med: #D4E9FF;
+      --info-muted-light: #EEF6FF;
+
+      /* Status — Warning */
+      --warning-dark: #EB9C00;
+      --warning-muted-dark: #FFB547;
+      --warning-muted-med: #FFDD96;
+      --warning-muted-light: #FFE39A;
+
+      /* Status — Success */
+      --success-dark: #1A7F5A;
+      --success-muted-dark: #00AF70;
+      --success-muted-med: #68DEB3;
+      --success-muted-light: #E0F5EC;
+
+      /* Status — Destructive */
+      --destructive-dark: #890627;
+      --destructive-muted-dark: #CE0D3D;
+      --destructive-muted-med: #FE8EAA;
+      --destructive-muted-light: #FFE1E9;
+
+      /* Usage — Background */
+      --color-light-primary: #F6F7FC;
+      --color-light-secondary: #FFFFFF;
+      --color-light-dark: #F0F1FA;
+      --color-dark-primary: #001730;
+
+      /* Usage — Border */
+      --color-border-primary: #C2DFFF;
+      --color-border-secondary: #5CABFF;
+
+      /* Usage — Text */
+      --color-text-dark: #000A14;
+      --color-text-muted-dark: #575C64;
+      --color-text-muted-med: #8D939D;
+      --color-text-muted-light: #BDC4D0;
+      --color-text-light: #FFFFFF;
+      --color-text-link: #0059B8;
+
+      /* Shadows */
+      --shadow-card-default: 0 0 24px rgba(3, 15, 29, 0.08);
+      --shadow-card-hover: 0 0 32px rgba(3, 15, 29, 0.2);
+
+      /* Typography */
+      --font-family: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      /* Spacing */
+      --space-1: 2px;
+      --space-2: 4px;
+      --space-3: 6px;
+      --space-4: 8px;
+      --space-5: 10px;
+      --space-6: 12px;
+      --space-7: 16px;
+      --space-8: 24px;
+      --space-9: 32px;
+      --space-10: 48px;
+
+      /* Radius */
+      --radius-xs: 2px;
+      --radius-sm: 4px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --radius-pill-sm: 16px;
+      --radius-pill-md: 20px;
+      --radius-pill-lg: 24px;
+
+      /* Motion */
+      --duration-fast: 80ms;
+      --duration-standard: 120ms;
+      --duration-panel: 300ms;
+      --ease-default: ease;
+      --ease-panel: ease-in-out;
+
+      /* Semantic Aliases */
+      --color-text-primary: var(--color-text-dark);
+      --color-text-secondary: var(--color-text-muted-dark);
+      --color-text-placeholder: var(--color-text-muted-light);
+      --color-bg-surface: var(--color-light-secondary);
+      --color-bg-page: var(--color-primary-10);
+      --color-bg-nav: var(--color-dark-primary);
+      --color-bg-nav-selected: var(--color-primary-70);
+      --color-border-light: var(--color-border-primary);
+      --color-border-medium: var(--color-grey-60);
+      --color-border-strong: var(--color-grey-80);
+      --color-teal: var(--color-secondary-medium);
+      --color-teal-light: var(--color-secondary-light);
+      --color-blue: var(--color-primary-70);
+      --color-blue-hover: var(--color-primary-20);
+      --color-blue-light: var(--color-primary-30);
+      --color-blue-bg: var(--color-primary-20);
+      --color-amber: var(--color-tertiary-medium);
+      --color-amber-light: var(--color-tertiary-light);
+      --color-error: var(--destructive-muted-dark);
+      --color-achieved: var(--success-muted-med);
+      --color-in-progress: var(--warning-muted-dark);
+    }
+
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: var(--font-family);
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--color-text-primary);
+      background: var(--color-grey-0);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       PAGE LAYOUT
+       ======================================== */
+    html, body {
+      height: 100%;
+    }
+    .page-layout {
+      display: flex;
+      min-height: 100vh;
+      background: var(--color-light-dark);
+    }
+
+    /* ========================================
+       NAV SIDEBAR (Level 1)
+       ======================================== */
+    .nav-demo {
+      display: flex;
+      width: 80px;
+      min-width: 80px;
+      flex-direction: column;
+      align-items: stretch;
+      background: var(--color-dark-primary);
+    }
+
+    .nav-item {
+      width: 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      min-height: 80px;
+      cursor: pointer;
+      transition: background var(--duration-standard) var(--ease-default);
+      background: var(--color-dark-primary);
+      color: var(--color-grey-60);
+      text-decoration: none;
+    }
+    .nav-item svg {
+      width: 24px;
+      height: 24px;
+      transition: color var(--duration-standard) var(--ease-default);
+    }
+    .nav-item svg,
+    .nav-item svg path,
+    .nav-item svg circle,
+    .nav-item svg rect,
+    .nav-item svg line,
+    .nav-item svg polyline {
+      stroke: currentColor;
+      fill: none;
+      transition: stroke var(--duration-standard) var(--ease-default);
+    }
+    .nav-item span {
+      font-size: 12px;
+      letter-spacing: 0.24px;
+      color: currentColor;
+      transition: color var(--duration-standard) var(--ease-default);
+      text-align: center;
+      line-height: normal;
+      padding: 0 2px;
+    }
+    .nav-item:hover {
+      color: var(--color-text-light);
+    }
+    .nav-item.selected {
+      background: var(--color-primary-70);
+      color: var(--color-text-light);
+    }
+    .nav-item.disabled {
+      cursor: not-allowed;
+      color: var(--color-text-muted-dark);
+    }
+    .nav-item.disabled:hover {
+      color: var(--color-text-muted-dark);
+    }
+
+    /* ========================================
+       MAIN CONTENT AREA
+       ======================================== */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      padding: 12px 24px 24px 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Page Navigation Bar */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      height: 48px;
+      width: 100%;
+    }
+    .page-nav__left {
+      display: flex;
+      flex: 1;
+      gap: 8px;
+      align-items: center;
+      padding: 14px 0;
+    }
+    .page-nav__text {
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: var(--color-text-primary);
+      white-space: nowrap;
+    }
+    .page-nav__separator {
+      width: 1px;
+      height: 20px;
+      background: var(--color-text-secondary);
+    }
+
+    /* Program Status Badge */
+    .program-status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid;
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      white-space: nowrap;
+    }
+    .program-status--pre-program {
+      background: var(--warning-muted-med);
+      border-color: var(--warning-muted-dark);
+      color: var(--color-text-dark);
+    }
+
+    /* Page Title */
+    .page-title {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      width: 100%;
+      margin-top: 16px;
+    }
+    .page-title h1 {
+      font-family: var(--font-family);
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 42px;
+      color: var(--color-text-primary);
+    }
+
+    /* ========================================
+       CONTENT WRAP (white card with teal top)
+       ======================================== */
+    .content-wrap {
+      width: 100%;
+      background: var(--color-bg-surface);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      margin-top: 24px;
+      flex: 1;
+    }
+
+    /* ========================================
+       LINK LIST
+       ======================================== */
+    .link-list {
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      gap: 0;
+    }
+    .link-list__item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 12px;
+      border-bottom: 1px solid var(--color-border-light);
+      text-decoration: none;
+      color: var(--color-text-primary);
+      transition: background var(--duration-standard) var(--ease-default);
+    }
+    .link-list__item:first-child {
+      border-top: 1px solid var(--color-border-light);
+    }
+    .link-list__item:hover {
+      background: var(--color-blue-hover);
+    }
+    .link-list__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .link-list__icon svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--color-primary-70);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .link-list__text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .link-list__title {
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      color: var(--color-text-link);
+    }
+    .link-list__desc {
+      font-family: var(--font-family);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 18px;
+      color: var(--color-text-secondary);
+    }
+    .link-list__arrow {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .link-list__arrow svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--color-text-muted-med);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-layout">
+    <!-- ============ NAV SIDEBAR ============ -->
+    <nav class="nav-demo nav-demo--level2">
+      <!-- Home -->
+      <div class="nav-item selected" data-nav="home">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9.02 2.84001L3.63 7.04001C2.73 7.74001 2 9.23001 2 10.36V17.77C2 20.09 3.89 21.99 6.21 21.99H17.79C20.11 21.99 22 20.09 22 17.78V10.5C22 9.29001 21.19 7.74001 20.2 7.05001L14.02 2.72001C12.62 1.74001 10.37 1.79001 9.02 2.84001Z"/><path d="M12 17.99V14.99"/></svg>
+        <span>Home</span>
+      </div>
+      <!-- Program settings -->
+      <a href="program-settings.html" class="nav-item" data-nav="program-settings">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18 3H6C4.89543 3 4 3.89543 4 5V19C4 20.1046 4.89543 21 6 21H18C19.1046 21 20 20.1046 20 19V5C20 3.89543 19.1046 3 18 3Z"/><path d="M7 7H17"/><path d="M8 10.5C8.27614 10.5 8.5 10.7239 8.5 11C8.5 11.2761 8.27614 11.5 8 11.5C7.72386 11.5 7.5 11.2761 7.5 11C7.5 10.7239 7.72386 10.5 8 10.5Z" fill="currentColor"/><path d="M11 11H17"/><path d="M8 16C8.55228 16 9 15.5523 9 15C9 14.4477 8.55228 14 8 14C7.44772 14 7 14.4477 7 15C7 15.5523 7.44772 16 8 16Z" fill="currentColor"/><path d="M11 15H17"/></svg>
+        <span>Program<br>settings</span>
+      </a>
+      <!-- Graduation -->
+      <div class="nav-item" data-nav="graduation">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M19 9C19 10.45 18.57 11.78 17.83 12.89C16.75 14.49 15.04 15.62 13.05 15.91C12.71 15.97 12.36 16 12 16C11.64 16 11.29 15.97 10.95 15.91C8.96 15.62 7.25 14.49 6.17 12.89C5.43 11.78 5 10.45 5 9C5 5.13 8.13 2 12 2C15.87 2 19 5.13 19 9Z"/><path d="M21.2501 18.47L19.6001 18.86C19.2301 18.95 18.9401 19.23 18.8601 19.6L18.5101 21.07C18.3201 21.87 17.3001 22.11 16.7701 21.48L12.0001 16L7.23008 21.49C6.70008 22.12 5.68008 21.88 5.49008 21.08L5.14008 19.61C5.05008 19.24 4.76008 18.95 4.40008 18.87L2.75008 18.48C1.99008 18.3 1.72008 17.35 2.27008 16.8L6.17008 12.9C7.25008 14.5 8.96008 15.63 10.9501 15.92C11.2901 15.98 11.6401 16.01 12.0001 16.01C12.3601 16.01 12.7101 15.98 13.0501 15.92C15.0401 15.63 16.7501 14.5 17.8301 12.9L21.7301 16.8C22.2801 17.34 22.0101 18.29 21.2501 18.47Z"/><path d="M12.58 5.98L13.17 7.15999C13.25 7.31999 13.46 7.48 13.65 7.51L14.72 7.68999C15.4 7.79999 15.56 8.3 15.07 8.79L14.24 9.61998C14.1 9.75998 14.02 10.03 14.07 10.23L14.31 11.26C14.5 12.07 14.07 12.39 13.35 11.96L12.35 11.37C12.17 11.26 11.87 11.26 11.69 11.37L10.69 11.96C9.96997 12.38 9.53997 12.07 9.72997 11.26L9.96997 10.23C10.01 10.04 9.93997 9.75998 9.79997 9.61998L8.96997 8.79C8.47997 8.3 8.63997 7.80999 9.31997 7.68999L10.39 7.51C10.57 7.48 10.78 7.31999 10.86 7.15999L11.45 5.98C11.74 5.34 12.26 5.34 12.58 5.98Z"/></svg>
+        <span>Graduation</span>
+      </div>
+      <!-- Managing Staff -->
+      <div class="nav-item" data-nav="managing-staff">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12.1596 10.87C12.0596 10.86 11.9396 10.86 11.8296 10.87C9.44957 10.79 7.55957 8.84 7.55957 6.44C7.55957 3.99 9.53957 2 11.9996 2C14.4496 2 16.4396 3.99 16.4396 6.44C16.4296 8.84 14.5396 10.79 12.1596 10.87Z"/><path d="M7.15973 14.56C4.73973 16.18 4.73973 18.82 7.15973 20.43C9.90973 22.27 14.4197 22.27 17.1697 20.43C19.5897 18.81 19.5897 16.17 17.1697 14.56C14.4297 12.73 9.91973 12.73 7.15973 14.56Z"/></svg>
+        <span>Managing<br>Staff</span>
+      </div>
+      <!-- Schedule & Content -->
+      <a href="program-schedule.html" class="nav-item" data-nav="schedule-content">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M11 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V13"/><path d="M16.0399 3.02001L8.15988 10.9C7.85988 11.2 7.55988 11.79 7.49988 12.22L7.06988 15.23C6.90988 16.32 7.67988 17.08 8.76988 16.93L11.7799 16.5C12.1999 16.44 12.7899 16.14 13.0999 15.84L20.9799 7.96001C22.3399 6.60001 22.9799 5.02001 20.9799 3.02001C18.9799 1.02001 17.3999 1.66001 16.0399 3.02001Z"/><path d="M14.9102 4.15002C15.5802 6.54002 17.4502 8.41002 19.8502 9.09002"/></svg>
+        <span>Schedule &amp;<br>Content</span>
+      </a>
+      <!-- Learner -->
+      <div class="nav-item" data-nav="learner">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M18.0001 7.16C17.9401 7.15 17.8701 7.15 17.8101 7.16C16.4301 7.11 15.3301 5.98 15.3301 4.58C15.3301 3.15 16.4801 2 17.9101 2C19.3401 2 20.4901 3.16 20.4901 4.58C20.4801 5.98 19.3801 7.11 18.0001 7.16Z"/><path d="M16.9704 14.44C18.3404 14.67 19.8504 14.43 20.9104 13.72C22.3204 12.78 22.3204 11.24 20.9104 10.3C19.8404 9.59004 18.3104 9.35003 16.9404 9.59003"/><path d="M5.97047 7.16C6.03047 7.15 6.10047 7.15 6.16047 7.16C7.54047 7.11 8.64047 5.98 8.64047 4.58C8.64047 3.15 7.49047 2 6.06047 2C4.63047 2 3.48047 3.16 3.48047 4.58C3.49047 5.98 4.59047 7.11 5.97047 7.16Z"/><path d="M7.00043 14.44C5.63043 14.67 4.12043 14.43 3.06043 13.72C1.65043 12.78 1.65043 11.24 3.06043 10.3C4.13043 9.59004 5.66043 9.35003 7.03043 9.59003"/><path d="M12.0001 14.63C11.9401 14.62 11.8701 14.62 11.8101 14.63C10.4301 14.58 9.33008 13.45 9.33008 12.05C9.33008 10.62 10.4801 9.46997 11.9101 9.46997C13.3401 9.46997 14.4901 10.63 14.4901 12.05C14.4801 13.45 13.3801 14.59 12.0001 14.63Z"/><path d="M9.08973 17.78C7.67973 18.72 7.67973 20.26 9.08973 21.2C10.6897 22.27 13.3097 22.27 14.9097 21.2C16.3197 20.26 16.3197 18.72 14.9097 17.78C13.3197 16.72 10.6897 16.72 9.08973 17.78Z"/></svg>
+        <span>Learner</span>
+      </div>
+    </nav>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="main-content">
+      <!-- Page Navigation -->
+      <div class="page-nav">
+        <div class="page-nav__left">
+          <span class="page-nav__text">DS4A</span>
+          <div class="page-nav__separator"></div>
+          <span class="page-nav__text">DS4A-2025-001</span>
+        </div>
+      </div>
+
+      <!-- Page Title -->
+      <div class="page-title">
+        <div style="flex:1; display:flex; gap:16px; align-items:center;">
+          <h1>Program Admin</h1>
+          <span class="program-status program-status--pre-program">Pre-program</span>
+        </div>
+      </div>
+
+      <!-- Content Wrap (white card) -->
+      <div class="content-wrap">
+        <div class="link-list">
+          <!-- Program Duplication -->
+          <a href="program-settings.html" class="link-list__item">
+            <div class="link-list__icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"/><path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z"/></svg>
+            </div>
+            <div class="link-list__text">
+              <div class="link-list__title">Program Duplication</div>
+              <div class="link-list__desc">Duplicate program settings and configuration</div>
+            </div>
+            <div class="link-list__arrow">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5"/></svg>
+            </div>
+          </a>
+
+          <!-- Lecture Plan QA -->
+          <a href="Lecture-plan-QA.html" class="link-list__item">
+            <div class="link-list__icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14"/><path d="M22 10H18C15 10 14 9 14 6V2L22 10"/><path d="M7 13H13"/><path d="M7 17H11"/></svg>
+            </div>
+            <div class="link-list__text">
+              <div class="link-list__title">Lecture Plan QA</div>
+              <div class="link-list__desc">Review and approve lecture plan quality</div>
+            </div>
+            <div class="link-list__arrow">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5"/></svg>
+            </div>
+          </a>
+
+          <!-- Content Approval -->
+          <a href="program-schedule_content-signoff.html" class="link-list__item">
+            <div class="link-list__icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"/><path d="M7.75 12L10.58 14.83L16.25 9.17"/></svg>
+            </div>
+            <div class="link-list__text">
+              <div class="link-list__title">Content Approval</div>
+              <div class="link-list__desc">Sign off on scheduled content</div>
+            </div>
+            <div class="link-list__arrow">
+              <svg viewBox="0 0 20 20" fill="none"><path d="M7.5 15L12.5 10L7.5 5"/></svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Nav item click handling
+    document.querySelectorAll('.nav-item:not(.disabled)').forEach(function(item) {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.nav-item').forEach(function(ni) {
+          ni.classList.remove('selected');
+        });
+        item.classList.add('selected');
+      });
+    });
+  </script>
+</body>
+</html>
