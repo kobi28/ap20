@@ -5784,7 +5784,7 @@
         });
       });
 
-      function openModal(lxdBtn, opsBtn, clickedBtn) {
+      function openModal(lxdBtn, opsBtn, clickedBtn, clickedType) {
         activeLxdBtn = lxdBtn;
         activeOpsBtn = opsBtn;
         selectedRows = {};
@@ -5817,6 +5817,12 @@
             setCompletedDisabledState(row, btn.getAttribute('data-approved-by'), btn.getAttribute('data-approved-date'));
           } else if (clickedIsApproved) {
             // View-only mode: disable unapproved rows so user can't interact
+            updateRowState(row, false);
+            row.style.cursor = 'default';
+            row.style.opacity = '0.5';
+            row.style.pointerEvents = 'none';
+          } else if (type !== clickedType) {
+            // Action mode: disable the other department's row
             updateRowState(row, false);
             row.style.cursor = 'default';
             row.style.opacity = '0.5';
@@ -5898,14 +5904,14 @@
         var allBtns = titleRow ? titleRow.querySelectorAll('.content-approved-btn') : [];
         var lxdBtn = allBtns[0] || btn;
         var opsBtn = allBtns[1] || null;
-        openModal(lxdBtn, opsBtn, btn);
+        openModal(lxdBtn, opsBtn, btn, 'lxd');
       };
       window.openOpsApprovalFlyout = function(btn) {
         var titleRow = btn.closest('.item-title-row');
         var allBtns = titleRow ? titleRow.querySelectorAll('.content-approved-btn') : [];
         var lxdBtn = allBtns[0] || null;
         var opsBtn = allBtns[1] || btn;
-        openModal(lxdBtn, opsBtn, btn);
+        openModal(lxdBtn, opsBtn, btn, 'ops');
       };
       window.openContentApprovalDetails = function(btn) { openDetails(btn); };
     })();
